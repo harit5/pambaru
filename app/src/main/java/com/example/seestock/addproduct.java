@@ -47,10 +47,10 @@ public class addproduct extends AppCompatActivity {
 
         btnPilihFile = findViewById(R.id.btnPilihFile);
         tvFileDipilih = findViewById(R.id.btnPilihFile);
-        etNamaProduk = findViewById(R.id.etNama); // pastikan ID sesuai XML
+        etNamaProduk = findViewById(R.id.etNamaProduk); // pastikan ID sesuai XML
         etIsi = findViewById(R.id.etIsi);               // pastikan ID sesuai XML
-        jmlstok = findViewById(R.id.etStok);   // pastikan ID sesuai XML
-        etHarga = findViewById(R.id.etHarga); // pastikan ID ini sesuai XML kamu
+        jmlstok = findViewById(R.id.jmlstok);   // pastikan ID sesuai XML
+        etHarga = findViewById(R.id.harga); // pastikan ID ini sesuai XML kamu
 
 
 

@@ -1,186 +1,218 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF">
+    android:background="#7CBCE9"
+    android:padding="30dp"
+    tools:context=".addproduct">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/main"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#4581B3"
-        android:backgroundTint="#4581B3"
-        tools:context=".addproduct">
+    <ImageView
+        android:id="@+id/imageView6"
+        android:layout_width="40dp"
+        android:layout_height="30dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="?attr/actionModeCloseDrawable"
+        tools:contentDescription="Tombol Kembali" />
 
-        <!-- JUDUL -->
-        <TextView
-            android:id="@+id/labelJudul"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Tambah Produk"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            android:textColor="#000000"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+    <TextView
+        android:id="@+id/tvTambahProduk"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:gravity="center_horizontal"
+        android:text="Tambah Produk"
+        android:textColor="#1E1E1E"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView6"
+        app:layout_constraintEnd_toStartOf="@+id/imageView5"
+        app:layout_constraintStart_toEndOf="@+id/imageView6"
+        app:layout_constraintTop_toTopOf="@+id/imageView6" />
 
-        <!-- LABEL NAMA -->
-        <TextView
-            android:id="@+id/labelNama"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Nama Produk"
-            android:textColor="#555"
-            android:textSize="14sp"
-            android:layout_marginTop="24dp"
-            app:layout_constraintTop_toBottomOf="@id/labelJudul"
-            app:layout_constraintStart_toStartOf="parent" />
+    <ImageView
+        android:id="@+id/imageView5"
+        android:layout_width="98dp"
+        android:layout_height="56dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/img_1"
+        tools:contentDescription="Logo Aplikasi" />
 
-        <EditText
-            android:id="@+id/etNama"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:hint="Masukkan nama produk"
-            android:background="@drawable/edit_text_border"
-            android:padding="12dp"
-            android:textColor="#000"
-            app:layout_constraintTop_toBottomOf="@id/labelNama"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+    <TextView
+        android:id="@+id/labelNamaProduk"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="Nama Produk"
+        android:textColor="#333333"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/imageView6" />
 
-        <!-- HARGA -->
-        <TextView
-            android:id="@+id/labelHarga"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Harga Produk"
-            android:textColor="#555"
-            android:textSize="14sp"
-            android:layout_marginTop="16dp"
-            app:layout_constraintTop_toBottomOf="@id/etNama"
-            app:layout_constraintStart_toStartOf="parent" />
+    <EditText
+        android:id="@+id/etNamaProduk"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/edit_text_border"
+        android:hint="Contoh: Buku, Baju, dll"
+        android:paddingHorizontal="16dp"
+        android:textColor="#000000"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/labelNamaProduk" />
 
-        <EditText
-            android:id="@+id/etHarga"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:hint="Masukkan harga"
-            android:inputType="numberDecimal"
-            android:background="@drawable/edit_text_border"
-            android:padding="12dp"
-            app:layout_constraintTop_toBottomOf="@id/labelHarga"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+    <TextView
+        android:id="@+id/labelFoto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Foto (JPG, JPEG, PNG)"
+        android:textColor="#333333"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/etNamaProduk" />
 
-        <!-- STOK -->
-        <TextView
-            android:id="@+id/labelStok"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Stok Produk"
-            android:textColor="#555"
-            android:textSize="14sp"
-            android:layout_marginTop="16dp"
-            app:layout_constraintTop_toBottomOf="@id/etHarga"
-            app:layout_constraintStart_toStartOf="parent" />
+    <Button
+        android:id="@+id/btnPilihFile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:backgroundTint="#2196F3"
+        android:drawableLeft="@android:drawable/ic_menu_camera"
+        android:drawablePadding="8dp"
+        android:text="Pilih File"
+        android:textAllCaps="false"
+        android:textColor="#FFFFFF"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/labelFoto" />
 
-        <EditText
-            android:id="@+id/etStok"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:hint="Jumlah stok"
-            android:inputType="number"
-            android:background="@drawable/edit_text_border"
-            android:padding="12dp"
-            app:layout_constraintTop_toBottomOf="@id/labelStok"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+    <TextView
+        android:id="@+id/tvFileDipilih"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="Tidak ada file yang dipilih"
+        android:textColor="#050505"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@+id/btnPilihFile"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/btnPilihFile"
+        app:layout_constraintTop_toTopOf="@+id/btnPilihFile" />
 
-        <!-- FOTO -->
-        <TextView
-            android:id="@+id/labelFoto"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Foto Produk"
-            android:textColor="#555"
-            android:textSize="14sp"
-            android:layout_marginTop="16dp"
-            app:layout_constraintTop_toBottomOf="@id/etStok"
-            app:layout_constraintStart_toStartOf="parent" />
+    <TextView
+        android:id="@+id/labelStok"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Stok"
+        android:textColor="#333333"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btnPilihFile" />
 
-        <ImageView
-            android:id="@+id/imagePreview"
-            android:layout_width="0dp"
-            android:layout_height="200dp"
-            android:scaleType="centerCrop"
-            android:background="@android:color/darker_gray"
-            android:layout_marginTop="8dp"
-            app:layout_constraintTop_toBottomOf="@id/labelFoto"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+    <EditText
+        android:id="@+id/jmlstok"
+        android:layout_width="120dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/edit_text_border"
+        android:ems="10"
+        android:hint="Jumlah"
+        android:inputType="number"
+        android:paddingHorizontal="16dp"
+        android:textAlignment="center"
+        android:textColor="#000000"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/labelStok" />
 
-        <Button
-            android:id="@+id/btnPilihFile"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Pilih File"
-            android:textAllCaps="false"
-            android:layout_marginTop="8dp"
-            app:layout_constraintTop_toBottomOf="@id/imagePreview"
-            app:layout_constraintStart_toStartOf="parent" />
+    <TextView
+        android:id="@+id/labelHarga"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Harga"
+        android:textColor="#333333"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/jmlstok" />
 
-        <!-- DESKRIPSI -->
-        <TextView
-            android:id="@+id/labelDeskripsi"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Deskripsi Produk"
-            android:textColor="#555"
-            android:textSize="14sp"
-            android:layout_marginTop="16dp"
-            app:layout_constraintTop_toBottomOf="@id/btnPilihFile"
-            app:layout_constraintStart_toStartOf="parent" />
+    <EditText
+        android:id="@+id/harga"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/edit_text_border"
+        android:ems="10"
+        android:hint="Contoh: 50000"
+        android:inputType="number"
+        android:paddingHorizontal="16dp"
+        android:textAlignment="textStart"
+        android:textColor="#000000"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/labelHarga" />
 
-        <EditText
-            android:id="@+id/etIsi"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:hint="Tulis deskripsi produk"
-            android:minLines="4"
-            android:gravity="top|start"
-            android:background="@drawable/edit_text_border"
-            android:padding="12dp"
-            app:layout_constraintTop_toBottomOf="@id/labelDeskripsi"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+    <TextView
+        android:id="@+id/labelIsi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Deskripsi Produk"
+        android:textColor="#333333"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/harga" />
 
-        <!-- BUTTONS -->
-        <Button
-            android:id="@+id/btnClose"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="Batal"
-            android:layout_marginTop="24dp"
-            android:backgroundTint="#B0BEC5"
-            app:layout_constraintTop_toBottomOf="@id/etIsi"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/btnSimpan"
-            app:layout_constraintWidth_percent="0.48" />
+    <EditText
+        android:id="@+id/etIsi"
+        android:layout_width="0dp"
+        android:layout_height="120dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/edit_text_border"
+        android:gravity="top|start"
+        android:hint="Masukkan deskripsi produk"
+        android:inputType="textMultiLine"
+        android:padding="12dp"
+        android:textColor="#000000"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/labelIsi" />
 
-        <Button
-            android:id="@+id/btnSimpan"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="Simpan"
-            android:layout_marginTop="24dp"
-            android:backgroundTint="#4CAF50"
-            android:textColor="#FFF"
-            app:layout_constraintTop_toBottomOf="@id/etIsi"
-            app:layout_constraintStart_toEndOf="@id/btnClose"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintWidth_percent="0.48" />
+    <Button
+        android:id="@+id/btnClose"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="8dp"
+        android:backgroundTint="#DDDDDD"
+        android:text="Batal"
+        android:textAllCaps="false"
+        android:textColor="#333333"
+        app:layout_constraintEnd_toStartOf="@+id/btnSimpan"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etIsi" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</ScrollView>
+    <Button
+        android:id="@+id/btnSimpan"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="24dp"
+        android:backgroundTint="#2196F3"
+        android:text="Simpan"
+        android:textAllCaps="false"
+        android:textColor="#FFFFFF"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/btnClose"
+        app:layout_constraintTop_toBottomOf="@+id/etIsi" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

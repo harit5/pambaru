@@ -13,7 +13,7 @@ import java.util.List;
 public class MyDatabaseHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "MyApp.db";
-    private static final int DATABASE_VERSION = 1; // Or your current version
+    private static final int DATABASE_VERSION = 2; // Increment the database version
 
     // Table and column names (good practice to define as constants)
     public static final String TABLE_PRODUK = "produk";
@@ -53,17 +53,15 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
                 COLUMN_PRODUK_DELETE_AT + " TEXT DEFAULT NULL," +
                 COLUMN_PRODUK_FOTO + " BLOB DEFAULT NULL," +
                 COLUMN_PRODUK_STOCK + " INTEGER," +
-                COLUMN_PRODUK_DESKRIPSI + " TEXT)");
-
+                COLUMN_PRODUK_DESKRIPSI + " TEXT)"); // Add this line
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // Handle database upgrades if your schema changes
-        // For example:
-        // if (oldVersion < 2) {
-        //     db.execSQL("ALTER TABLE " + TABLE_PRODUK + " ADD COLUMN new_column TEXT;");
-        // }
+        if (oldVersion < 2) {
+            db.execSQL("ALTER TABLE " + TABLE_PRODUK + " ADD COLUMN " + COLUMN_PRODUK_DESKRIPSI + " TEXT;");
+        }
     }
 
     public void registerUser(String userName, String password, String email) {

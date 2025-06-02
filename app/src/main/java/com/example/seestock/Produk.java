@@ -15,6 +15,8 @@ public class Produk {
         this.foto_produk = foto_produk;
     }
 
+
+
     public int getStock() {
         return stock;
     }

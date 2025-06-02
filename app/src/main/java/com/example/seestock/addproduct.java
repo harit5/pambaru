@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.OpenableColumns;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -51,7 +52,15 @@ public class addproduct extends AppCompatActivity {
         etIsi = findViewById(R.id.etIsi);               // pastikan ID sesuai XML
         jmlstok = findViewById(R.id.jmlstok);   // pastikan ID sesuai XML
         etHarga = findViewById(R.id.harga); // pastikan ID ini sesuai XML kamu
+        imageView6 = findViewById(R.id.imageView6);
 
+        imageView6.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent back = new Intent(addproduct.this, homepage.class);
+                startActivity(back);
+            }
+        });
 
 
 

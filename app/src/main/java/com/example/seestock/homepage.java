@@ -1,12 +1,14 @@
 package com.example.seestock;
 
+import android.content.DialogInterface; // Import DialogInterface
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import androidx.appcompat.widget.SearchView; // Import SearchView
+import androidx.appcompat.widget.SearchView;
+import androidx.appcompat.app.AlertDialog; // Import AlertDialog
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,32 +19,34 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
-import java.util.ArrayList; // Import ArrayList
+import java.util.ArrayList;
 
 public class homepage extends AppCompatActivity {
 
     Button btntambahproduk, btndetail, button5, btnStockRecap;
     MyDatabaseHelper dbHelper;
     TextView textView;
-    RecyclerView recyclerView; // Deklarasi RecyclerView
-    ProdukAdapter adapter; // Deklarasi adapter
-    SearchView searchView; // Deklarasi SearchView
+    RecyclerView recyclerView;
+    ProdukAdapter adapter;
+    SearchView searchView;
+
+    ImageView logout; // Deklarasi ImageView untuk logout
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_homepage); // Pastikan Anda memiliki activity_homepage.xml dengan SearchView
+        setContentView(R.layout.activity_homepage);
 
         dbHelper = new MyDatabaseHelper(this);
         textView = findViewById(R.id.textView);
         button5 = findViewById(R.id.button5);
         btntambahproduk = findViewById(R.id.button);
         btnStockRecap = findViewById(R.id.btnStockRecap);
-        recyclerView = findViewById(R.id.recyclerViewProduk); // Inisialisasi RecyclerView
-        searchView = findViewById(R.id.searchView); // Inisialisasi SearchView (asumsi ID-nya searchView di homepage.xml)
-
+        recyclerView = findViewById(R.id.recyclerViewProduk);
+        searchView = findViewById(R.id.searchView);
+        logout = findViewById(R.id.imageView); // Inisialisasi ImageView logout (asumsi ID-nya imageView di homepage.xml)
 
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -50,6 +54,8 @@ public class homepage extends AppCompatActivity {
         adapter = new ProdukAdapter(this, produkList);
         recyclerView.setAdapter(adapter);
 
+
+        // Mengatur OnClickListener untuk tombol tambah produk
         btntambahproduk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -58,6 +64,7 @@ public class homepage extends AppCompatActivity {
             }
         });
 
+        // Mengatur OnClickListener untuk tombol maps
         button5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -66,6 +73,7 @@ public class homepage extends AppCompatActivity {
             }
         });
 
+        // Mengatur OnClickListener untuk tombol stock recap
         btnStockRecap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -88,9 +96,33 @@ public class homepage extends AppCompatActivity {
                 filterProduk(newText);
                 return true;
             }
+        });
 
-
-
+        // Mengatur OnClickListener untuk ImageView logout
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Membuat AlertDialog untuk konfirmasi logout
+                new AlertDialog.Builder(homepage.this)
+                        .setTitle("Konfirmasi Logout") // Judul dialog
+                        .setMessage("Apakah Anda yakin ingin logout?") // Pesan dialog
+                        .setPositiveButton("Ya", new DialogInterface.OnClickListener() { // Tombol "Ya"
+                            public void onClick(DialogInterface dialog, int which) {
+                                // Jika "Ya" diklik, arahkan ke LoginActivity dan tutup homepage
+                                Intent intent = new Intent(homepage.this, loginpage.class); // Asumsi Login adalah nama kelas activity login Anda
+                                startActivity(intent);
+                                finish(); // Menutup activity homepage agar tidak bisa kembali dengan tombol back
+                            }
+                        })
+                        .setNegativeButton("Tidak", new DialogInterface.OnClickListener() { // Tombol "Tidak"
+                            public void onClick(DialogInterface dialog, int which) {
+                                // Jika "Tidak" diklik, tutup dialog
+                                dialog.dismiss();
+                            }
+                        })
+                        .setIcon(android.R.drawable.ic_dialog_alert) // Ikon peringatan (opsional)
+                        .show(); // Menampilkan dialog
+            }
         });
 
 

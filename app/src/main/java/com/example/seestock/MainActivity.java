@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
         etEmail = findViewById(R.id.editTextTextEmailAddress);
         etPassword = findViewById(R.id.editTextTextPassword);
         btnRegister = findViewById(R.id.button);
-        textView = findViewById(R.id.textView);
+        textView = findViewById(R.id.textViewLoginLink);
         dbHelper = new MyDatabaseHelper(this);
 
         textView.setOnClickListener(new View.OnClickListener() {

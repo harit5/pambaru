@@ -1,9 +1,11 @@
 package com.example.seestock;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
@@ -22,7 +24,9 @@ public class StockRecapActivity extends AppCompatActivity {
     private RecyclerView recyclerViewStockRecap;
     private StockRecapAdapter adapter;
     private TextView tvTotalProducts, tvTotalStock;
-    private Button btnBackFromRecap;
+//    private Button btnBackFromRecap;
+
+    ImageView backButton;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -36,19 +40,29 @@ public class StockRecapActivity extends AppCompatActivity {
         tvTotalProducts = findViewById(R.id.tvTotalProducts);
         tvTotalStock = findViewById(R.id.tvTotalStock);
         recyclerViewStockRecap = findViewById(R.id.recyclerViewStockRecap);
-        btnBackFromRecap = findViewById(R.id.btnBackFromRecap);
+//        btnBackFromRecap = findViewById(R.id.btnBackFromRecap);
+        backButton = findViewById(R.id.btnBackArrow);
+
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent backIntent = new Intent(StockRecapActivity.this, homepage.class);
+                startActivity(backIntent);
+            }
+        });
+
 
         recyclerViewStockRecap.setLayoutManager(new LinearLayoutManager(this));
 
         loadStockRecapData();
 
-        btnBackFromRecap.setOnClickListener(v -> finish()); // Tombol kembali
-
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
+//        btnBackFromRecap.setOnClickListener(v -> finish()); // Tombol kembali
+//
+//        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+//            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+//            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+//            return insets;
+//        });
     }
 
     private void loadStockRecapData() {

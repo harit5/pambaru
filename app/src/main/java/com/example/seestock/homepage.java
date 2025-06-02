@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.appcompat.widget.SearchView; // Import SearchView
 
@@ -27,6 +28,7 @@ public class homepage extends AppCompatActivity {
     ProdukAdapter adapter; // Deklarasi adapter
     SearchView searchView; // Deklarasi SearchView
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,6 +42,8 @@ public class homepage extends AppCompatActivity {
         btnStockRecap = findViewById(R.id.btnStockRecap);
         recyclerView = findViewById(R.id.recyclerViewProduk); // Inisialisasi RecyclerView
         searchView = findViewById(R.id.searchView); // Inisialisasi SearchView (asumsi ID-nya searchView di homepage.xml)
+
+
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         List<Produk> produkList = dbHelper.getAllProduk();
@@ -84,6 +88,9 @@ public class homepage extends AppCompatActivity {
                 filterProduk(newText);
                 return true;
             }
+
+
+
         });
 
 

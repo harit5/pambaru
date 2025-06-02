@@ -5,65 +5,85 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".StockRecapActivity">
+    android:background="#7CBCE9"
+    android:paddingTop="24dp" tools:context=".StockRecapActivity">
+
+    <View
+        android:id="@+id/view6"
+        android:layout_width="0dp"
+        android:layout_height="58dp"
+        android:layout_marginTop="12dp"
+        android:background="#4682B4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/btnBackArrow"
+        android:layout_width="40dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="16dp"
+        app:layout_constraintStart_toStartOf="@+id/view6"
+        app:layout_constraintTop_toTopOf="@+id/view6"
+        app:layout_constraintBottom_toBottomOf="@+id/view6"
+        app:srcCompat="@drawable/baseline_arrow_circle_left_24"
+        app:tint="@android:color/white"
+        tools:contentDescription="Tombol Kembali" />
 
     <TextView
         android:id="@+id/tvStockRecapTitle"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Rekap Stok Produk"
+        android:text="Rekap Produk"
+        android:textColor="#FBF4F4"
         android:textSize="24sp"
         android:textStyle="bold"
-        android:padding="16dp"
-        android:gravity="center"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintBottom_toBottomOf="@+id/view6"
+        app:layout_constraintEnd_toEndOf="@+id/view6"
+        app:layout_constraintHorizontal_bias="0.362"
+        app:layout_constraintStart_toEndOf="@+id/btnBackArrow"
+        app:layout_constraintTop_toTopOf="@+id/view6"
+        app:layout_constraintVertical_bias="0.538" />
 
     <TextView
         android:id="@+id/tvTotalProducts"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Jumlah Produk Aktif: 0"
-        android:textSize="16sp"
+        android:layout_marginTop="20dp"
         android:paddingStart="16dp"
         android:paddingEnd="16dp"
         android:paddingBottom="8dp"
-        app:layout_constraintTop_toBottomOf="@id/tvStockRecapTitle"
+        android:text="Jumlah Produk Aktif: 0"
+        android:textColor="@android:color/white"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/view6" />
 
     <TextView
         android:id="@+id/tvTotalStock"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Total Stok Keseluruhan: 0"
-        android:textSize="16sp"
         android:paddingStart="16dp"
         android:paddingEnd="16dp"
         android:paddingBottom="8dp"
-        app:layout_constraintTop_toBottomOf="@id/tvTotalProducts"
+        android:text="Total Stok Keseluruhan: 0"
+        android:textColor="@android:color/white"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/tvTotalProducts" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewStockRecap"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintTop_toBottomOf="@id/tvTotalStock"
+        android:padding="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        tools:listitem="@layout/item_produk_recap"
-        android:padding="8dp" />
-
-    <Button
-        android:id="@+id/btnBackFromRecap"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Kembali"
-        android:layout_margin="16dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvTotalStock"
+        tools:listitem="@layout/item_produk_recap" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

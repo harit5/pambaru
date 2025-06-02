@@ -18,7 +18,7 @@ import java.util.List;
 
 public class homepage extends AppCompatActivity {
 
-    Button btntambahproduk, btndetail, button5;
+    Button btntambahproduk, btndetail, button5, btnStockRecap; // Tambahkan btnStockRecap
     MyDatabaseHelper dbHelper;
     TextView textView;
 
@@ -32,6 +32,7 @@ public class homepage extends AppCompatActivity {
         textView = findViewById(R.id.textView);
         button5 = findViewById(R.id.button5);
         btntambahproduk = findViewById(R.id.button);
+        btnStockRecap = findViewById(R.id.btnStockRecap); // Inisialisasi tombol rekap stok
 
         // Inisialisasi awal RecyclerView (pertama kali halaman dibuka)
         RecyclerView recyclerView = findViewById(R.id.recyclerViewProduk);
@@ -55,6 +56,16 @@ public class homepage extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        // Listener untuk tombol rekap stok
+        btnStockRecap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(homepage.this, StockRecapActivity.class);
+                startActivity(intent);
+            }
+        });
+
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());

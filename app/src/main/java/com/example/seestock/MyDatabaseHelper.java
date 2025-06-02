@@ -7,8 +7,11 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.database.Cursor;
 import android.util.Log; // For logging
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class MyDatabaseHelper extends SQLiteOpenHelper {
 
@@ -97,27 +100,28 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         // Ensure you select all necessary columns for the Produk object, including ID
         Cursor cursor = db.rawQuery("SELECT " + COLUMN_PRODUK_ID + ", " + COLUMN_PRODUK_NAME + ", " +
                 COLUMN_PRODUK_HARGA + ", " + COLUMN_PRODUK_STOCK + ", " +
-                COLUMN_PRODUK_FOTO + " FROM " + TABLE_PRODUK +
+                COLUMN_PRODUK_FOTO + ", " + COLUMN_PRODUK_DESKRIPSI + ", " + COLUMN_PRODUK_DELETE_AT +
+                " FROM " + TABLE_PRODUK +
                 " WHERE " + COLUMN_PRODUK_DELETE_AT + " IS NULL", null);
 
         if (cursor.moveToFirst()) {
             do {
+                // Pastikan constructor Produk sesuai dengan kolom yang diambil
                 Produk produk = new Produk(
                         cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_PRODUK_ID)),
                         cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_PRODUK_NAME)),
                         cursor.getDouble(cursor.getColumnIndexOrThrow(COLUMN_PRODUK_HARGA)),
                         cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_PRODUK_STOCK)),
-                        cursor.getBlob(cursor.getColumnIndexOrThrow(COLUMN_PRODUK_FOTO))
+                        cursor.getBlob(cursor.getColumnIndexOrThrow(COLUMN_PRODUK_FOTO)),
+                        cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_PRODUK_DESKRIPSI)),
+                        cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_PRODUK_DELETE_AT))
                 );
                 list.add(produk);
             } while (cursor.moveToNext());
         }
         cursor.close();
-        // db.close(); // Consider managing db connection lifecycle carefully.
-        // It's often better to keep the helper instance open while the app component (Activity/Service) is active.
         return list;
     }
-
 
 
     /**
@@ -131,7 +135,59 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put(COLUMN_PRODUK_STOCK, newStock);
         int rowsAffected = db.update(TABLE_PRODUK, values, COLUMN_PRODUK_ID + " = ?", new String[]{String.valueOf(productId)});
-        // db.close(); // Manage db connection lifecycle carefully.
         return rowsAffected > 0;
+    }
+
+    /**
+     * Marks a product as deleted by setting the deleteAt timestamp.
+     * @param productId The ID of the product to delete.
+     * @return true if the update was successful, false otherwise.
+     */
+    public boolean softDeleteProduct(int productId) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        String timestamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(new Date());
+        values.put(COLUMN_PRODUK_DELETE_AT, timestamp);
+
+        int rowsAffected = db.update(TABLE_PRODUK, values, COLUMN_PRODUK_ID + " = ?", new String[]{String.valueOf(productId)});
+        db.close();
+        return rowsAffected > 0;
+    }
+
+    /**
+     * Retrieves all products from the database, including those marked as deleted.
+     * @return A list of Produk objects.
+     */
+    public List<Produk> getAllProdukIncludingDeleted() {
+        List<Produk> list = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT " +
+                COLUMN_PRODUK_ID + ", " +
+                COLUMN_PRODUK_NAME + ", " +
+                COLUMN_PRODUK_HARGA + ", " +
+                COLUMN_PRODUK_STOCK + ", " +
+                COLUMN_PRODUK_FOTO + ", " +
+                COLUMN_PRODUK_DESKRIPSI + ", " +
+                COLUMN_PRODUK_DELETE_AT +
+                " FROM " + TABLE_PRODUK, null); // No WHERE clause to include all
+
+        if (cursor.moveToFirst()) {
+            do {
+                // Pastikan constructor Produk sesuai dengan kolom yang diambil
+                Produk produk = new Produk(
+                        cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_PRODUK_ID)),
+                        cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_PRODUK_NAME)),
+                        cursor.getDouble(cursor.getColumnIndexOrThrow(COLUMN_PRODUK_HARGA)),
+                        cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_PRODUK_STOCK)),
+                        cursor.getBlob(cursor.getColumnIndexOrThrow(COLUMN_PRODUK_FOTO)),
+                        cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_PRODUK_DESKRIPSI)),
+                        cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_PRODUK_DELETE_AT))
+                );
+                list.add(produk);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        // db.close(); // Manage db connection lifecycle carefully
+        return list;
     }
 }

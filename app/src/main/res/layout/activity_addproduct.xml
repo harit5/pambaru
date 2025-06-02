@@ -94,19 +94,6 @@
         app:layout_constraintTop_toBottomOf="@id/labelFoto" />
 
     <TextView
-        android:id="@+id/tvFileDipilih"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:text="Tidak ada file yang dipilih"
-        android:textColor="#050505"
-        android:textSize="14sp"
-        app:layout_constraintBottom_toBottomOf="@+id/btnPilihFile"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/btnPilihFile"
-        app:layout_constraintTop_toTopOf="@+id/btnPilihFile" />
-
-    <TextView
         android:id="@+id/labelStok"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

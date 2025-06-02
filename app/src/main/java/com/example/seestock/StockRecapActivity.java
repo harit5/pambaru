@@ -1,3 +1,4 @@
+// StockRecapActivity.java
 package com.example.seestock;
 
 import android.annotation.SuppressLint;
@@ -7,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast; // Import Toast
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -24,9 +26,9 @@ public class StockRecapActivity extends AppCompatActivity {
     private RecyclerView recyclerViewStockRecap;
     private StockRecapAdapter adapter;
     private TextView tvTotalProducts, tvTotalStock;
-//    private Button btnBackFromRecap;
-
     ImageView backButton;
+
+    private int currentUserId; // Variabel untuk menyimpan userId
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -40,8 +42,15 @@ public class StockRecapActivity extends AppCompatActivity {
         tvTotalProducts = findViewById(R.id.tvTotalProducts);
         tvTotalStock = findViewById(R.id.tvTotalStock);
         recyclerViewStockRecap = findViewById(R.id.recyclerViewStockRecap);
-//        btnBackFromRecap = findViewById(R.id.btnBackFromRecap);
         backButton = findViewById(R.id.btnBackArrow);
+
+        // *** Ambil userId dari Intent ***
+        currentUserId = getIntent().getIntExtra("userId", -1);
+        if (currentUserId == -1) {
+            Toast.makeText(this, "Kesalahan: ID pengguna tidak ditemukan.", Toast.LENGTH_SHORT).show();
+            finish(); // Tutup activity jika userId tidak valid
+            return;
+        }
 
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -51,22 +60,14 @@ public class StockRecapActivity extends AppCompatActivity {
             }
         });
 
-
         recyclerViewStockRecap.setLayoutManager(new LinearLayoutManager(this));
 
         loadStockRecapData();
-
-//        btnBackFromRecap.setOnClickListener(v -> finish()); // Tombol kembali
-//
-//        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-//            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-//            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-//            return insets;
-//        });
     }
 
     private void loadStockRecapData() {
-        List<Produk> allProduk = dbHelper.getAllProdukIncludingDeleted();
+        // *** Panggil getAllProdukIncludingDeleted dengan userId ***
+        List<Produk> allProduk = dbHelper.getAllProdukIncludingDeleted(currentUserId);
         adapter = new StockRecapAdapter(this, allProduk);
         recyclerViewStockRecap.setAdapter(adapter);
 
@@ -78,7 +79,7 @@ public class StockRecapActivity extends AppCompatActivity {
         int totalOverallStock = 0;
 
         for (Produk produk : produkList) {
-            if (produk.deleteAt == null) { // Hanya hitung produk aktif
+            if (produk.deleteAt == null) {
                 totalActiveProducts++;
                 totalOverallStock += produk.stock;
             }
@@ -91,6 +92,14 @@ public class StockRecapActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        loadStockRecapData(); // Refresh data setiap kali kembali ke halaman ini
+        // Pastikan userId masih valid sebelum memuat data
+        if (currentUserId != -1) {
+            loadStockRecapData(); // Refresh data setiap kali kembali ke halaman ini
+        } else {
+            // Jika userId tidak valid, arahkan kembali ke homepage (atau login)
+            Intent intent = new Intent(StockRecapActivity.this, homepage.class); // atau loginpage.class
+            startActivity(intent);
+            finish();
+        }
     }
 }

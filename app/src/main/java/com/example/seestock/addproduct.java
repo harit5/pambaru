@@ -1,3 +1,4 @@
+// File: addproduct.java
 package com.example.seestock;
 
 import android.content.ContentValues;
@@ -13,6 +14,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast; // Import Toast
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -31,14 +33,13 @@ public class addproduct extends AppCompatActivity {
     private byte[] imageBytes;
 
     Button btnPilihFile;
-    TextView tvFileDipilih;
+    TextView tvFileDipilih; // Tetap dideklarasikan sebagai TextView
     EditText etNamaProduk, etIsi, jmlstok;
-
     EditText etHarga;
-
-    Spinner spinnerStok;
-
+    Spinner spinnerStok; // Spinner ini tidak digunakan di kode Anda
     ImageView imageView6;
+
+    private int currentUserId; // Variabel untuk menyimpan userId
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,22 +48,36 @@ public class addproduct extends AppCompatActivity {
         setContentView(R.layout.activity_addproduct);
 
         btnPilihFile = findViewById(R.id.btnPilihFile);
-        tvFileDipilih = findViewById(R.id.btnPilihFile);
-        etNamaProduk = findViewById(R.id.etNamaProduk); // pastikan ID sesuai XML
-        etIsi = findViewById(R.id.etIsi);               // pastikan ID sesuai XML
-        jmlstok = findViewById(R.id.jmlstok);   // pastikan ID sesuai XML
-        etHarga = findViewById(R.id.harga); // pastikan ID ini sesuai XML kamu
+        // Penting: Jika R.id.btnPilihFile adalah ID untuk Button,
+        // maka tvFileDipilih sebenarnya akan merujuk ke Button tersebut.
+        // Jika Anda ingin menampilkan nama file di TextView terpisah,
+        // Anda perlu TextView baru di layout XML dengan ID yang berbeda.
+        tvFileDipilih = findViewById(R.id.btnPilihFile); // Mempertahankan inisialisasi ini seperti yang diminta
+
+        etNamaProduk = findViewById(R.id.etNamaProduk);
+        etIsi = findViewById(R.id.etIsi);
+        jmlstok = findViewById(R.id.jmlstok);
+        etHarga = findViewById(R.id.harga);
         imageView6 = findViewById(R.id.imageView6);
+
+        // Ambil userId dari Intent
+        currentUserId = getIntent().getIntExtra("userId", -1);
+        if (currentUserId == -1) {
+            Toast.makeText(this, "Kesalahan: ID pengguna tidak ditemukan. Harap login kembali.", Toast.LENGTH_LONG).show();
+            finish(); // Tutup activity jika userId tidak valid
+            return;
+        }
 
         imageView6.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent back = new Intent(addproduct.this, homepage.class);
+                // Opsional: Jika homepage perlu userId saat kembali, teruskan di sini juga
+                // back.putExtra("userId", currentUserId);
                 startActivity(back);
+                finish(); // Selesai dari activity addproduct
             }
         });
-
-
 
         btnPilihFile.setOnClickListener(v -> {
             Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
@@ -76,10 +91,8 @@ public class addproduct extends AppCompatActivity {
             return insets;
         });
 
-        Button btnSimpan = findViewById(R.id.btnSimpan); // Tambahkan di XML juga
+        Button btnSimpan = findViewById(R.id.btnSimpan);
         btnSimpan.setOnClickListener(v -> saveProduct());
-
-        ;
     }
 
     @Override
@@ -90,13 +103,17 @@ public class addproduct extends AppCompatActivity {
             imageUri = data.getData();
 
             String fileName = getFileName(imageUri);
-            tvFileDipilih.setText(fileName);
+            // Ini akan mengubah teks pada tombol btnPilihFile karena tvFileDipilih mengacu pada ID yang sama.
+            // Jika ini yang Anda inginkan, tidak masalah.
+            // Alternatif yang lebih baik adalah menggunakan TextView terpisah untuk menampilkan nama file.
+            tvFileDipilih.setText("File terpilih: " + fileName); // Mempertahankan pemanggilan setText()
 
             try {
                 InputStream iStream = getContentResolver().openInputStream(imageUri);
                 imageBytes = getBytes(iStream);
             } catch (IOException e) {
                 e.printStackTrace();
+                Toast.makeText(this, "Gagal memuat gambar: " + e.getMessage(), Toast.LENGTH_LONG).show();
             }
         }
     }
@@ -136,42 +153,45 @@ public class addproduct extends AppCompatActivity {
         String namaProduk = etNamaProduk.getText().toString().trim();
         String deskripsi = etIsi.getText().toString().trim();
         String stokString = jmlstok.getText().toString().trim();
-        String hargaString = etHarga.getText().toString().trim(); // ✅ Ambil nilai harga
+        String hargaString = etHarga.getText().toString().trim();
 
         // Validasi input
-        if (namaProduk.isEmpty() || deskripsi.isEmpty() || stokString.isEmpty() || hargaString.isEmpty() || imageBytes == null) {
-            tvFileDipilih.setText("Isi semua field dan pilih gambar!");
+        if (namaProduk.isEmpty() || deskripsi.isEmpty() || stokString.isEmpty() || hargaString.isEmpty()) {
+            Toast.makeText(this, "Semua field teks wajib diisi!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (imageBytes == null) {
+            Toast.makeText(this, "Harap pilih gambar produk!", Toast.LENGTH_SHORT).show();
             return;
         }
 
         int stok;
-        double harga; // ✅ tipe harga adalah double
+        double harga;
         try {
             stok = Integer.parseInt(stokString);
-            harga = Double.parseDouble(hargaString); // ✅ parsing harga
+            harga = Double.parseDouble(hargaString);
         } catch (NumberFormatException e) {
-            tvFileDipilih.setText("Stok dan harga harus berupa angka!");
+            Toast.makeText(this, "Stok dan harga harus berupa angka yang valid!", Toast.LENGTH_SHORT).show();
             return;
         }
 
+        // Panggil metode addProduct dari MyDatabaseHelper
         MyDatabaseHelper dbHelper = new MyDatabaseHelper(this);
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        long result = dbHelper.addProduct(namaProduk, harga, stok, imageBytes, deskripsi, currentUserId);
 
-        ContentValues values = new ContentValues();
-        values.put("name", namaProduk);
-        values.put("harga", harga); // ✅ simpan harga ke database
-        values.put("stock", stok);
-        values.put("foto_produk", imageBytes);
-        values.put("deskripsi", deskripsi);
+        if (result > 0) {
+            Toast.makeText(this, "Produk berhasil ditambahkan!", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "Gagal menambahkan produk. Silakan coba lagi.", Toast.LENGTH_SHORT).show();
+        }
 
-        db.insert("produk", null, values);
-        db.close();
-
-        // Navigasi ke homepage setelah simpan
+        // Navigasi kembali ke homepage setelah simpan
         Intent intent = new Intent(addproduct.this, homepage.class);
+        // Pastikan userId juga diteruskan kembali ke homepage jika diperlukan
+        intent.putExtra("userId", currentUserId);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
-        finish();
+        finish(); // Menutup activity addproduct
     }
-
 }

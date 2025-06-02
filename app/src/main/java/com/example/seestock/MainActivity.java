@@ -1,3 +1,4 @@
+// MainActivity.java (Tidak ada perubahan yang diperlukan dari kode asli Anda)
 package com.example.seestock;
 
 import android.content.Intent;
@@ -39,16 +40,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        //buat nunjukin nama user setelah register
-//        Cursor cursor = dbHelper.getUser(1); // ambil user dengan id 1
-//        if (cursor != null && cursor.moveToFirst()) {
-//            String userName = cursor.getString(cursor.getColumnIndexOrThrow("userName"));
-//            textView.setText("User: " + userName);
-//            cursor.close();
-//        } else {
-//            textView.setText("User tidak ditemukan");
-//        }
-
         btnRegister.setOnClickListener(v -> {
             String username = etUsername.getText().toString().trim();
             String email = etEmail.getText().toString().trim();
@@ -62,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(this, "Registrasi berhasil", Toast.LENGTH_SHORT).show();
                 Intent tologin = new Intent(MainActivity.this, loginpage.class);
                 startActivity(tologin);
-                finish(); // atau redirect ke login
+                finish();
             }
         });
     }
